@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,7 +17,7 @@ const db = new sqlite3.Database('./data.db');
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT)");
 });
-
+app.use(cors());
 // Rutas
 app.get('/users', (req, res) => {
     db.all("SELECT * FROM users", (err, rows) => {
@@ -27,7 +29,7 @@ app.get('/users', (req, res) => {
 });
 
 app.post('/users', (req, res) => {
-    debugger;
+  
     const { name, email } = req.body;
     if (!name || !email) {
         return res.status(400).json({ error: "Name and email are required" });
