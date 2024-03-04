@@ -1,0 +1,7 @@
+curl -X PUT \
+  http://localhost:3000/users/:id \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "Nuevo nombre",
+    "email": "nuevo@example.com"
+}'
